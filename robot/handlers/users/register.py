@@ -1,5 +1,4 @@
 import logging
-import re
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
@@ -36,6 +35,8 @@ async def register(message: Message, state: FSMContext):
     if not phone_number.startswith("+"):
         phone_number = "+" + phone_number
 
+    await TelegramUser.objects.filter(
+        userid=message.from_user.id).aupdate(phone=phone_number)
     user = await get_user_model().objects.filter(
         username=phone_number).afirst()
     if user:
@@ -81,24 +82,18 @@ async def register(message: Message, state: FSMContext):
     await state.update_data(last_name=message.text)
 
 
-@dp.message_handler(state=UserRegister.password,
-                    regexp=r"^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$")
+@dp.message_handler(
+    state=UserRegister.password,
+    regexp=r"^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$")
 async def register(message: Message, state: FSMContext):
-    password = message.text
-    # if not bool(re.compile(r"^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$").match(password)):
-    #     await message.answer(text=ct.c_input_password_again)
-    #     await message.delete()
-    #     return
-
     user_info = await state.get_data()
-    username = message.from_user.username or user_info.get("username")
 
     try:
         user = await get_user_model().objects.acreate(
-            username=username,
+            username=user_info.get("username"),
             first_name=user_info.get("first_name"),
             last_name=user_info.get("last_name"),
-            password=make_password(password),
+            password=make_password(message.text),
         )
         telegram_user = await TelegramUser.objects.aget(
             userid=message.from_user.id)
@@ -109,7 +104,7 @@ async def register(message: Message, state: FSMContext):
         )
     except IntegrityError:
         await message.answer(
-            text=ct.c_registeration_failed, reply_markup=make_buttons(
+            text=ct.c_registration_failed, reply_markup=make_buttons(
                 [ct.c_register])
         )
 
@@ -117,3 +112,9 @@ async def register(message: Message, state: FSMContext):
     await state.finish()
 
     logging.info("%s user was successfully created", user.username)
+
+
+@dp.message_handler(state=UserRegister.password)
+async def not_valid_password(message: Message):
+    await message.answer(
+        text=ct.c_input_password_again)
