@@ -17,7 +17,7 @@ async def on_startup(dispatcher):
 
 
 class Command(BaseCommand):
-    help = 'RUN COMMAND: python manage.py runbot'
+    help = "RUN COMMAND: python manage.py runbot"
 
     def handle(self, *args, **options):
         executor.start_polling(dp, on_startup=on_startup)

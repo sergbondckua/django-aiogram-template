@@ -1,23 +1,22 @@
 def c_get_hello(full_name: str) -> str:
-    return f"Salom, {full_name}!\nSiz bizda yangisiz, "\
-        "shuning uchun iltimos ma'lumotlaringizni kiriting."
+    return f"Привіт, {full_name}!\nВи новачок у нас, " "тому введіть свої дані."
 
 
 def c_get_hello_back(first_name: str, last_name: str) -> str:
-    return f"{first_name} {last_name} sizni yana ko'rib turganimizdan xursandmiz!"
+    return f"{first_name} {last_name} ми раді бачити вас знову!"
 
 
-c_register = "Ro'yhatdan o'tish 📝"
-c_cancel = "Bekor qilish ❌"
-c_share_phone_number = "Telefon raqamimni ulashish"
-c_input_phone_number = "Telefon raqamingizni kiriting:"
-c_input_first_name = "Ismingizni kiriting:"
-c_input_last_name = "Familiyangizni kiriting:"
-c_input_password = "Parol kiriting:"
-c_input_password_again = "Iltimos qayta kiriting:\n" \
-    "(<i>Parol uzunligi kamida 4 ta belgidan iborat bo'lishi kerak</i>)"
-c_successfully_register = "Tabriklaymiz 🎉\n" \
-    "<b>Siz muvaffaqqiyatli ro'yhatdan o'tdingiz.</b>"
-c_registeration_failed = "Ro'yxatga olishda xatolik yuz berdi 🫤\n"
+c_register = "Реєстрація 📝"
+c_cancel = "Відмовитись ❌"
+c_share_phone_number = "Надіслати номер телефону"
+c_input_phone_number = "Введіть свій номер телефону:"
+c_input_first_name = "Введіть ім'я:"
+c_input_last_name = "Введіть своє прізвище:"
+c_input_password = "Введіть пароль:"
+c_input_password_again = (
+    "Будь ласка, введіть ще раз:\n" "(<i>Пароль має бути не менше 4 символів</i>)"
+)
+c_successfully_register = "Вітаю 🎉\n" "<b>Ви успішно зареєструвалися.</b>"
+c_registeration_failed = "Під час реєстрації сталася помилка 🫤\n"
 
-c_about_us = "Biz haqimizda 👁️"
+c_about_us = "Про нас 👁️"
