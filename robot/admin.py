@@ -10,21 +10,28 @@ from common.admin import BaseAdmin
 class TelegramUserAdmin(BaseAdmin):
     list_display = (
         "userid",
+        "full_name",
+        "username",
         "user",
         "phone",
+        "birthday",
 
     )
     list_display_links = ("user", "userid",)
-    readonly_fields = ("userid", "avatar",) + BaseAdmin.readonly_fields
+    empty_value_display = _("-empty-")
+    readonly_fields = ("userid", "username",) + BaseAdmin.readonly_fields
     fieldsets = (
                     (
                         _("Registration details"),
                         {
                             "fields": (
                                 "user",
+                                "first_name",
+                                "last_name",
+                                "birthday",
                                 "userid",
+                                "username",
                                 "phone",
-                                "avatar",
                                 "language_code",
                             )
                         },
