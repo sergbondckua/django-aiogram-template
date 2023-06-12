@@ -26,6 +26,7 @@ async def register(message: Message):
 
 @dp.message_handler(state=UserRegister.username, content_types="contact")
 async def register(message: Message, state: FSMContext):
+
     #  Verification phone number belongs to this account
     if message.contact.user_id != message.from_user.id:
         await message.answer(text="This is not your phone number. Try again.")
@@ -35,8 +36,6 @@ async def register(message: Message, state: FSMContext):
     if not phone_number.startswith("+"):
         phone_number = "+" + phone_number
 
-    await TelegramUser.objects.filter(
-        userid=message.from_user.id).aupdate(phone=phone_number)
     user = await get_user_model().objects.filter(
         username=phone_number).afirst()
     if user:
@@ -58,7 +57,7 @@ async def register(message: Message, state: FSMContext):
             words=[message.from_user.first_name, ct.c_cancel]),
     )
 
-    await state.update_data(username=phone_number)
+    await state.update_data(username=phone_number, phone=phone_number)
 
 
 @dp.message_handler(state=UserRegister.first_name)
@@ -97,7 +96,10 @@ async def register(message: Message, state: FSMContext):
         )
         telegram_user = await TelegramUser.objects.aget(
             userid=message.from_user.id)
+        telegram_user.phone = user_info.get("phone")
+        await sync_to_async(telegram_user.save)()
         await sync_to_async(telegram_user.set_user)(user)
+
         await message.answer(
             text=ct.c_successfully_register, reply_markup=make_buttons(
                 [ct.c_about_us])
@@ -114,6 +116,7 @@ async def register(message: Message, state: FSMContext):
     logging.info("%s user was successfully created", user.username)
 
 
+# Called if the password has not validated
 @dp.message_handler(state=UserRegister.password)
 async def not_valid_password(message: Message):
     await message.answer(

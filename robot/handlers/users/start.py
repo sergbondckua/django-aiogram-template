@@ -15,9 +15,14 @@ from robot.keyboards.default import make_buttons
 async def bot_start(message: Message):
     avatars = await message.from_user.get_profile_photos(limit=1)
     file_id = avatars.photos[0][-1].file_id if avatars.total_count else None
+
     telegram_user, _ = await TelegramUser.objects.aget_or_create(
         userid=message.from_user.id,
-        language_code=message.from_user.locale.language,
+        defaults=dict(
+            language_code=message.from_user.locale.language,
+            avatar=file_id,
+        )
+
     )
     user = await sync_to_async(telegram_user.get_user)()
     if user is not None:
@@ -31,8 +36,11 @@ async def bot_start(message: Message):
         )
 
         #  Update avatar id
-        await TelegramUser.objects.filter(
-            userid=message.from_user.id).aupdate(avatar=file_id)
+        if telegram_user.avatar != file_id:
+            telegram_user.avatar = file_id
+            await sync_to_async(telegram_user.save)()
+            logging.info(
+                "%s: Avatar updated successfully", telegram_user.userid)
     else:
         logging.info("New user")
         await message.answer(
