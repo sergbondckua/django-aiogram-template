@@ -6,3 +6,10 @@ class UserRegister(StatesGroup):
     first_name = State()
     last_name = State()
     password = State()
+
+
+class UserChatRegister(StatesGroup):
+    phone = State()
+    first_name = State()
+    last_name = State()
+    birthday = State()

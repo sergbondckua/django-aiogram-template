@@ -17,7 +17,7 @@ class TelegramUserAdmin(BaseAdmin):
         "birthday",
 
     )
-    list_display_links = ("user", "userid",)
+    list_display_links = ("userid",)
     empty_value_display = _("-empty-")
     readonly_fields = ("userid", "username",) + BaseAdmin.readonly_fields
     fieldsets = (
