@@ -12,9 +12,9 @@ class TelegramUserAdmin(BaseAdmin):
         "userid",
         "full_name",
         "username",
-        "user",
         "phone",
         "birthday",
+        "user",
 
     )
     list_display_links = ("userid",)
