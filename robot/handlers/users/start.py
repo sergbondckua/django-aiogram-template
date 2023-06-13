@@ -107,7 +107,7 @@ async def register_for_telegram(message: Message, state: FSMContext):
     user_info = await state.get_data()
 
     try:
-        telegram_user = await TelegramUser.objects.filter(
+        await TelegramUser.objects.filter(
             userid=message.from_user.id).aupdate(
             phone=user_info.get("phone"),
             first_name=user_info.get("first_name"),
