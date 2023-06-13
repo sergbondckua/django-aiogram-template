@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from asgiref.sync import sync_to_async
@@ -94,16 +95,25 @@ async def register_for_telegram(message: Message, state: FSMContext):
     )
 
 
-@dp.message_handler(state=UserChatRegister.birthday)
+@dp.message_handler(
+    state=UserChatRegister.birthday, regexp=r"^\d{2}\.\d{2}\.\d{4}$")
 async def register_for_telegram(message: Message, state: FSMContext):
+
+    try:
+        birth_date = datetime.strptime(message.text, "%d.%m.%Y")
+    except ValueError:
+        await message.answer(ct.c_input_birthday_incorrect)
+        return
+
     user_info = await state.get_data()
+
     try:
         telegram_user = await TelegramUser.objects.filter(
             userid=message.from_user.id).aupdate(
             phone=user_info.get("phone"),
             first_name=user_info.get("first_name"),
             last_name=user_info.get("first_name"),
-            birthday=message.text
+            birthday=birth_date
         )
 
         await message.answer(
@@ -120,3 +130,9 @@ async def register_for_telegram(message: Message, state: FSMContext):
     await state.finish()
 
     logging.info("%s user was successfully created", telegram_user.username)
+
+
+@dp.message_handler(state=UserChatRegister.birthday)
+async def not_valid_birth_date(message: Message):
+    await message.answer(
+        text=ct.c_input_birthday_again)
