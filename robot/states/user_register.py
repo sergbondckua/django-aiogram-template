@@ -9,6 +9,7 @@ class UserRegister(StatesGroup):
 
 
 class UserChatRegister(StatesGroup):
+    yes_or_no = State()
     phone = State()
     first_name = State()
     last_name = State()

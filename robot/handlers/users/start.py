@@ -1,9 +1,10 @@
 import logging
 from datetime import datetime
+from typing import re
 
 from aiogram.dispatcher import FSMContext
-from aiogram.types import Message
-from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram.types import Message, ContentTypes, ReplyKeyboardRemove
+from aiogram.dispatcher.filters.builtin import CommandStart, Text
 from asgiref.sync import sync_to_async
 
 from django.db import IntegrityError
@@ -15,10 +16,12 @@ from robot.states.user_register import UserChatRegister
 from robot.models import TelegramUser
 
 
-@dp.message_handler(text_contains="cancel", state=UserChatRegister)
-async def approval(message: Message, state: FSMContext):
-    await message.edit_reply_markup()  # Remove buttons
-    await message.answer("Ви скасували реєстрацію")
+#  Cancellation of data entry
+@dp.message_handler(
+    Text(equals=ct.c_cancel, ignore_case=True), state=UserChatRegister)
+async def cancel_data_entry(message: Message, state: FSMContext):
+    await message.answer(
+        text=ct.c_cancel_msg, reply_markup=ReplyKeyboardRemove())
     await state.reset_state()
 
 
@@ -36,7 +39,13 @@ async def cmd_start(message: Message):
     )
 
     user = await sync_to_async(telegram_user.get_user)()
-    if user is not None:
+    if not (telegram_user.phone and telegram_user.birthday):
+        await UserChatRegister.yes_or_no.set()
+        await message.answer(
+            text=ct.c_get_hello(message.from_user.full_name),
+            reply_markup=make_buttons([ct.c_yes, ct.c_cancel], row_width=2),
+        )
+    elif user is not None:
         logging.info("User already exists")
         await message.answer(
             text=ct.c_get_hello_back(
@@ -52,14 +61,17 @@ async def cmd_start(message: Message):
             reply_markup=make_buttons([ct.c_register]),
         )
 
-    if telegram_user.phone is None:
-        await UserChatRegister.phone.set()
-        await message.answer(
-            text=ct.c_input_phone_number, reply_markup=contact_request_button
-        )
+
+@dp.message_handler(state=UserChatRegister.yes_or_no)
+async def approved(message: Message):
+    await UserChatRegister.next()
+    await message.answer(
+        text=ct.c_input_phone_number, reply_markup=contact_request_button
+    )
 
 
-@dp.message_handler(state=UserChatRegister.phone, content_types="contact")
+@dp.message_handler(
+    state=UserChatRegister.phone, content_types=ContentTypes.CONTACT)
 async def register_phone(message: Message, state: FSMContext):
     #  Verification phone number belongs to this account
     if message.contact.user_id != message.from_user.id:
@@ -113,16 +125,30 @@ async def register_birthday(message: Message, state: FSMContext):
         return
 
     user_info = await state.get_data()
+    first_name = user_info.get("first_name")
+    last_name = user_info.get("last_name")
+    phone = user_info.get("phone")
 
     try:
         await TelegramUser.objects.filter(
             userid=message.from_user.id).aupdate(
-            phone=user_info.get("phone"),
-            first_name=user_info.get("first_name"),
-            last_name=user_info.get("last_name"),
+            phone=phone,
+            first_name=first_name,
+            last_name=last_name,
             birthday=birth_date
         )
-
+        avatar = await message.from_user.get_profile_photos(offset=-1, limit=1)
+        if avatar.total_count:
+            await message.answer_photo(
+                photo=avatar.photos[0][-1].file_id,
+                caption=f"{first_name} {last_name} \n{phone} \n"
+                        f"{birth_date.strftime('%d.%m.%Y')} \n"
+            )
+        else:
+            await message.answer(
+                text=f"{first_name} {last_name} \n{phone} \n"
+                     f"{birth_date.strftime('%d.%m.%Y')} \n"
+            )
         await message.answer(
             text=ct.c_successfully_register, reply_markup=make_buttons(
                 [ct.c_about_us])
@@ -142,3 +168,12 @@ async def register_birthday(message: Message, state: FSMContext):
 async def not_valid_birth_date(message: Message):
     await message.answer(
         text=ct.c_input_birthday_again)
+
+
+@dp.message_handler(
+    lambda message: not message.contact, state=UserChatRegister.phone)
+async def check_contact(message: Message):
+    await message.reply(
+        text=ct.c_share_phone_number_not_valid,
+        reply_markup=contact_request_button
+    )
