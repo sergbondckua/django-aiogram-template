@@ -96,8 +96,6 @@ async def register(message: Message, state: FSMContext):
         )
         telegram_user = await TelegramUser.objects.aget(
             userid=message.from_user.id)
-        telegram_user.phone = user_info.get("phone")
-        await sync_to_async(telegram_user.save)()
         await sync_to_async(telegram_user.set_user)(user)
 
         await message.answer(

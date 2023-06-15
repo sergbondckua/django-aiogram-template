@@ -1,11 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from aiogram import executor
 
 from loader import dp
-
-from robot.middlewares import *
-from robot.handlers import *
 
 from robot.utils.notify_admins import on_startup_notify
 from robot.utils.set_bot_commands import set_default_commands
