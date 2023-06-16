@@ -1,9 +1,11 @@
 import logging
+import asyncio
 from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ContentTypes, ReplyKeyboardRemove
 from aiogram.dispatcher.filters.builtin import CommandStart, Text
+from aiogram.utils.deep_linking import decode_payload
 from asgiref.sync import sync_to_async
 
 from django.db import IntegrityError
@@ -27,6 +29,11 @@ async def cancel_data_entry(message: Message, state: FSMContext):
 
 @dp.message_handler(CommandStart())
 async def cmd_start(message: Message):
+    if args := message.get_args():
+        reference = decode_payload(args)
+        await message.answer(f"Ваш реферер {reference}")
+        await asyncio.sleep(3)
+
     telegram_user, _ = await TelegramUser.objects.aget_or_create(
         userid=message.from_user.id,
         defaults={
@@ -143,8 +150,8 @@ async def register_birthday(message: Message, state: FSMContext):
         if avatar.total_count:
             await message.answer_photo(
                 photo=avatar.photos[0][-1].file_id,
-                caption=f"{first_name} {last_name} \n{phone} \n"
-                        f"{birth_date.strftime('%d.%m.%Y')} \n"
+                caption=f"{first_name} {last_name} \n📱 {phone} \n"
+                        f"🎂 {birth_date.strftime('%d.%m.%Y')} \n"
             )
         else:
             await message.answer(
