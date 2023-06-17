@@ -69,6 +69,7 @@ async def cmd_start(message: Message):
         )
 
 
+
 #  If the consent button was clicked
 @dp.message_handler(
     Text(equals=ct.c_yes, ignore_case=True), state=UserChatRegister.yes_or_no)
