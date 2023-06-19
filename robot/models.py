@@ -1,7 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from common.models import BaseModel
@@ -95,5 +95,24 @@ class TelegramUser(BaseModel):
             if self.last_name else f"{self.first_name}"
 
     class Meta:
-        verbose_name = _("Telegram user")
-        verbose_name_plural = _("Telegram users")
+        verbose_name = _("Телеграм користувач")
+        verbose_name_plural = _("Телеграм користувачі")
+
+
+class DeepLink(BaseModel):
+    """Deep link model"""
+    link = models.CharField(
+        verbose_name=_("Назва посилання"),
+        max_length=10,
+    )
+    message = models.TextField(
+        verbose_name=_("Повідомлення"),
+        help_text=_("Доступні змінні: {userid}, {full_name}, {month_year}")
+    )
+
+    def __str__(self) -> str:
+        return self.link
+
+    class Meta:
+        verbose_name = _("Діплінк")
+        verbose_name_plural = _("Діплінки")

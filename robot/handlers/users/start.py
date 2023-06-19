@@ -5,7 +5,6 @@ from datetime import datetime
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ContentTypes, ReplyKeyboardRemove
 from aiogram.dispatcher.filters.builtin import CommandStart, Text
-from aiogram.utils.deep_linking import decode_payload
 from asgiref.sync import sync_to_async
 
 from django.db import IntegrityError
@@ -16,6 +15,7 @@ import const_texts as ct
 from robot.keyboards.default import make_buttons, contact_request_button
 from robot.states.user_register import UserChatRegister
 from robot.models import TelegramUser
+from robot.utils.misc.deeplink_process import get_deeplink
 
 
 #  Cancellation of data entry
@@ -30,8 +30,7 @@ async def cancel_data_entry(message: Message, state: FSMContext):
 @dp.message_handler(CommandStart())
 async def cmd_start(message: Message):
     if args := message.get_args():
-        reference = decode_payload(args)
-        await message.answer(f"Ваш реферер {reference}")
+        await get_deeplink(link=args, tg_object=message)
         await asyncio.sleep(3)
 
     telegram_user, _ = await TelegramUser.objects.aget_or_create(
@@ -47,6 +46,7 @@ async def cmd_start(message: Message):
 
     user = await sync_to_async(telegram_user.get_user)()
     if not (telegram_user.phone and telegram_user.birthday):
+        logging.info("User with incomplete information about him")
         await UserChatRegister.yes_or_no.set()
         await message.answer(
             text=ct.c_get_hello(message.from_user.first_name),

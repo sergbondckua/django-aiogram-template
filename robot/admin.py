@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from robot.models import TelegramUser
-
 from common.admin import BaseAdmin
+from robot.models import TelegramUser, DeepLink
 
 
 @admin.register(TelegramUser)
@@ -49,4 +48,21 @@ class TelegramUserAdmin(BaseAdmin):
                             )
                         },
                     )
+                ) + BaseAdmin.fieldsets
+
+
+@admin.register(DeepLink)
+class DeepLinkAdmin(BaseAdmin):
+    list_display = ("id", "link",)
+    list_display_links = ("link",)
+    fieldsets = (
+                    (
+                        _("Set info"),
+                        {
+                            "fields": (
+                                "link",
+                                "message",
+                            )
+                        },
+                    ),
                 ) + BaseAdmin.fieldsets

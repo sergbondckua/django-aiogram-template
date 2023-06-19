@@ -1,4 +1,4 @@
-from aiogram.utils.markdown import text, hitalic, hbold, hcode, quote_html
+from aiogram.utils.markdown import text, hbold, quote_html
 from django.utils.translation import gettext_lazy as _
 
 
