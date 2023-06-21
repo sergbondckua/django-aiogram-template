@@ -69,7 +69,6 @@ async def cmd_start(message: Message):
         )
 
 
-
 #  If the consent button was clicked
 @dp.message_handler(
     Text(equals=ct.c_yes, ignore_case=True), state=UserChatRegister.yes_or_no)
@@ -82,7 +81,6 @@ async def approved(message: Message):
 @dp.message_handler(
     state=UserChatRegister.phone, content_types=ContentTypes.CONTACT)
 async def register_phone(message: Message, state: FSMContext):
-
     #  Verification phone number belongs to this account
     if message.contact.user_id != message.from_user.id:
         await message.answer(text=ct.c_share_phone_number_again)

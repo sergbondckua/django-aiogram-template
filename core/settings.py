@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 from environs import Env
+
+from django.utils.translation import gettext_lazy as _
 
 env = Env()
 env.read_env()
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -109,6 +112,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+# List of available languages
+# LANGUAGES = (
+#     ("uk", _("Ukrainian")),
+#     ("en", _("English")),
+# )
+
+# Where the translation files are located
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locales").replace("\\", "/"),
+]
+
+LOCALES_DIR = BASE_DIR / "locales"
 
 LANGUAGE_CODE = "uk"
 

@@ -5,7 +5,7 @@ from aiogram import Dispatcher
 from aiogram.utils.markdown import text, hcode
 from django.utils.translation import gettext_lazy as _
 
-from robot.middlewares import *
+from robot.middlewares import ThrottlingMiddleware
 from robot.handlers import *
 from robot.utils.service import send_message_to_bot_admins
 
