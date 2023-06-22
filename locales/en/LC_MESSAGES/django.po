@@ -1,0 +1,295 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-22 17:52+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: common/admin.py:15
+msgid "Record info"
+msgstr ""
+
+#: common/models.py:10
+msgid "Created"
+msgstr ""
+
+#: common/models.py:11
+msgid "Updated"
+msgstr ""
+
+#: const_texts.py:7
+msgid "Привіт,"
+msgstr "Hello"
+
+#: const_texts.py:9
+msgid "   • В мене відсутня деяка інформація про тебе."
+msgstr "    • I am missing some information about you."
+
+#: const_texts.py:10
+msgid "   • Ти погоджуєшся надати інформацію?"
+msgstr "    • Do you agree to provide information?"
+
+#: const_texts.py:22
+msgid "Реєстрація 📝"
+msgstr "Registration 📝"
+
+#: const_texts.py:23
+msgid "✖ Скасувати"
+msgstr "✖ Cancel"
+
+#: const_texts.py:25
+msgid "Надання даних скасовано. Попередньо введена інформація видалена."
+msgstr ""
+"The provision of data has been cancelled. Previously entered information has "
+"been deleted."
+
+#: const_texts.py:28
+msgid "📲 Надіслати номер телефону"
+msgstr "📲 Send phone number"
+
+#: const_texts.py:30
+msgid ""
+"Цей номер телефону не належить Вашому обліковому запису Telegram. Спробуйте "
+"знову."
+msgstr "This phone number does not belong to your Telegram account. Try again."
+
+#: const_texts.py:34
+msgid ""
+"Це не є контакт! Для надсилання свого номера телефона скористайся кнопкою, "
+"що нижче."
+msgstr ""
+"This is not a contact! To send your phone number, use the button below."
+
+#: const_texts.py:41
+msgid "🙏 Дякую!"
+msgstr "🙏 Thank you!"
+
+#: const_texts.py:46
+msgid ""
+"твій номер телефону надійно збережено та буде використаний лише в "
+"організаційних питаннях клубу на твою користь і НЕ буде переданий третім "
+"особам."
+msgstr ""
+"your phone number is securely stored and will be used only in organizational "
+"matters of the club for your benefit and will NOT be transferred to third "
+"persons."
+
+#: const_texts.py:59
+msgid ""
+"Напиши та відправ мені свою дату народження в відповідному форматі - дд.мм."
+"рррр (31.12.2000)"
+msgstr ""
+"Write and send me your date of birth in the appropriate format - dd.mm.yyyy "
+"(31.12.2000)"
+
+#: const_texts.py:64
+msgid ""
+"• Для правильної організації тренувального процесу та участі в змаганнях - "
+"необхідно знати твій вік."
+msgstr ""
+"• For the correct organization of the training process and participation in "
+"competitions - it is necessary to know your age."
+
+#: const_texts.py:68
+msgid "• І ще, я хочу вітати тебе з Днем народження 🙂"
+msgstr "• And also, I want to congratulate you on your birthday 🙂"
+
+#: const_texts.py:72
+msgid "Невірний формат дати. Спробуйте ще раз."
+msgstr "Invalid date format. Try again."
+
+#: const_texts.py:73
+msgid "Некоректна дата. Спробуйте ще раз"
+msgstr "Incorrect date. Try again"
+
+#: const_texts.py:75
+msgid "Для повноцінного контакту, надай свій номер телефону."
+msgstr "For full contact, provide your phone number."
+
+#: const_texts.py:76
+msgid "• Його будуть бачити тільки адміністрація клубу 📲"
+msgstr "For full contact, provide your phone number."
+
+#: const_texts.py:79
+msgid "Введіть ім'я:"
+msgstr "Enter name:"
+
+#: const_texts.py:80
+msgid "Введіть своє прізвище:"
+msgstr "Enter your last name:"
+
+#: const_texts.py:81
+msgid "Введіть пароль:"
+msgstr "Enter password:"
+
+#: const_texts.py:83
+msgid ""
+"Довжина пароля має бути від 8 символів і містити в собі: цифри, великі та "
+"малі літери"
+msgstr ""
+"Password must be at least 8 characters long and contain numbers, uppercase "
+"and lowercase letters"
+
+#: const_texts.py:86
+msgid ""
+"Вітаю 🎉\n"
+"<b>Ви успішно зареєструвалися.</b>"
+msgstr ""
+
+#: const_texts.py:88
+msgid "Під час реєстрації сталася помилка 🫤\n"
+msgstr ""
+
+#: const_texts.py:89
+msgid "✔ Так"
+msgstr "✔ I do"
+
+#: const_texts.py:90
+msgid "Натисніть кнопку згоди або скасування"
+msgstr "Click the agree or cancel button"
+
+#: const_texts.py:92
+msgid "Про нас 👁️"
+msgstr "About"
+
+#: core/settings.py:118
+msgid "Ukrainian"
+msgstr ""
+
+#: core/settings.py:119
+msgid "English"
+msgstr ""
+
+#: robot/admin.py:20
+msgid "-empty-"
+msgstr ""
+
+#: robot/admin.py:24
+msgid "Registration details"
+msgstr ""
+
+#: robot/admin.py:39
+msgid "Status and Role"
+msgstr ""
+
+#: robot/admin.py:60
+msgid "Set info"
+msgstr ""
+
+#: robot/handlers/users/misc.py:32
+msgid "Your current language:"
+msgstr ""
+
+#: robot/handlers/users/misc.py:46
+msgid "Your language has been changed"
+msgstr ""
+
+#: robot/models.py:13
+msgid "User"
+msgstr ""
+
+#: robot/models.py:21
+msgid "First Name"
+msgstr ""
+
+#: robot/models.py:26
+msgid "Last Name"
+msgstr ""
+
+#: robot/models.py:32
+msgid "Username"
+msgstr ""
+
+#: robot/models.py:38
+msgid "Userid"
+msgstr ""
+
+#: robot/models.py:43
+msgid "Phone number in the format: '+380999999'. Up to 15 digits allowed."
+msgstr ""
+
+#: robot/models.py:47
+msgid "Phone number"
+msgstr ""
+
+#: robot/models.py:54
+msgid "Date of Birth"
+msgstr ""
+
+#: robot/models.py:59
+msgid "Language code"
+msgstr ""
+
+#: robot/models.py:63
+msgid "Telegram client's lang"
+msgstr ""
+
+#: robot/models.py:66
+msgid "Is blocked"
+msgstr ""
+
+#: robot/models.py:70
+msgid "Is banned"
+msgstr ""
+
+#: robot/models.py:74
+msgid "Is admin"
+msgstr ""
+
+#: robot/models.py:78
+msgid "Is moderator"
+msgstr ""
+
+#: robot/models.py:92
+msgid "Full name"
+msgstr ""
+
+#: robot/models.py:98
+msgid "Telegram user"
+msgstr ""
+
+#: robot/models.py:99
+msgid "Telegram users"
+msgstr ""
+
+#: robot/models.py:105
+msgid "DeepLink name"
+msgstr ""
+
+#: robot/models.py:109
+msgid "Message"
+msgstr ""
+
+#: robot/models.py:110
+#, python-brace-format
+msgid "Available variables: {userid}, {full_name}, {month_year}"
+msgstr ""
+
+#: robot/models.py:117
+msgid "Deeplink"
+msgstr ""
+
+#: robot/models.py:118
+msgid "Deep links"
+msgstr ""
+
+#: robot/utils/misc/deeplink_process.py:20
+msgid "Інформації не знайдено"
+msgstr ""
+
+#: robot/utils/notify_admins.py:16
+msgid "🖥 Запущено - Бот: "
+msgstr ""
