@@ -4,15 +4,15 @@ from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ContentTypes, ReplyKeyboardRemove
-from aiogram.dispatcher.filters.builtin import CommandStart, Text
+from aiogram.dispatcher.filters.builtin import CommandStart
 from asgiref.sync import sync_to_async
 
 from django.db import IntegrityError
 
-from loader import dp
+from loader import dp, _
 import const_texts as ct
 
-from robot.keyboards.default import make_buttons, contact_request_button
+from robot.keyboards.default import make_buttons, get_contact_keyboard
 from robot.states.user_register import UserChatRegister
 from robot.models import TelegramUser
 from robot.utils.misc.deeplink_process import get_deeplink
@@ -20,10 +20,10 @@ from robot.utils.misc.deeplink_process import get_deeplink
 
 #  Cancellation of data entry
 @dp.message_handler(
-    Text(equals=ct.c_cancel, ignore_case=True), state=UserChatRegister)
+    lambda message: message.text == _(ct.c_cancel), state=UserChatRegister)
 async def cancel_data_entry(message: Message, state: FSMContext):
     await message.answer(
-        text=ct.c_cancel_msg, reply_markup=ReplyKeyboardRemove())
+        text=_(ct.c_cancel_msg), reply_markup=ReplyKeyboardRemove())
     await state.reset_state()
 
 
@@ -50,7 +50,8 @@ async def cmd_start(message: Message):
         await UserChatRegister.yes_or_no.set()
         await message.answer(
             text=ct.c_get_hello(message.from_user.first_name),
-            reply_markup=make_buttons([ct.c_yes, ct.c_cancel], row_width=2),
+            reply_markup=make_buttons(
+                words=[ct.c_yes, ct.c_cancel], row_width=2),
         )
     elif user is not None:
         logging.info("User already exists")
@@ -70,12 +71,12 @@ async def cmd_start(message: Message):
 
 
 #  If the consent button was clicked
-@dp.message_handler(
-    Text(equals=ct.c_yes, ignore_case=True), state=UserChatRegister.yes_or_no)
+@dp.message_handler(lambda message: message.text == _(ct.c_yes),
+                    state=UserChatRegister.yes_or_no)
 async def approved(message: Message):
     await UserChatRegister.next()
     await message.answer(
-        text=ct.c_input_phone_number, reply_markup=contact_request_button)
+        text=_(ct.c_input_phone_number), reply_markup=get_contact_keyboard())
 
 
 @dp.message_handler(
@@ -83,7 +84,7 @@ async def approved(message: Message):
 async def register_phone(message: Message, state: FSMContext):
     #  Verification phone number belongs to this account
     if message.contact.user_id != message.from_user.id:
-        await message.answer(text=ct.c_share_phone_number_again)
+        await message.answer(text=_(ct.c_share_phone_number_again))
         return
 
     phone_number = message.contact.phone_number
@@ -96,7 +97,7 @@ async def register_phone(message: Message, state: FSMContext):
     await message.reply(
         text=ct.c_share_phone_number_thx(message.from_user.first_name))
     await message.answer(
-        text=ct.c_input_first_name,
+        text=_(ct.c_input_first_name),
         reply_markup=make_buttons(
             words=[message.from_user.first_name, ct.c_cancel]),
     )
@@ -107,7 +108,7 @@ async def register_first_name(message: Message, state: FSMContext):
     await state.update_data(first_name=message.text)
     await UserChatRegister.next()
     await message.answer(
-        text=ct.c_input_last_name,
+        text=_(ct.c_input_last_name),
         reply_markup=make_buttons(
             words=[message.from_user.last_name, ct.c_cancel]),
     )
@@ -118,7 +119,7 @@ async def register_last_name(message: Message, state: FSMContext):
     await state.update_data(last_name=message.text)
     await UserChatRegister.next()
     await message.answer(
-        text=ct.c_input_birthday, reply_markup=make_buttons(
+        text=_(ct.c_input_birthday), reply_markup=make_buttons(
             words=[ct.c_cancel])
     )
 
@@ -129,7 +130,7 @@ async def register_birthday(message: Message, state: FSMContext):
     try:
         birth_date = datetime.strptime(message.text, "%d.%m.%Y")
     except ValueError:
-        await message.answer(ct.c_input_birthday_incorrect)
+        await message.answer(_(ct.c_input_birthday_incorrect))
         return
 
     user_info = await state.get_data()
@@ -176,7 +177,7 @@ async def register_birthday(message: Message, state: FSMContext):
 @dp.message_handler(state=UserChatRegister.birthday)
 async def not_valid_birth_date(message: Message):
     await message.answer(
-        text=ct.c_input_birthday_again)
+        text=_(ct.c_input_birthday_again))
 
 
 #  If a message is sent without a contact
@@ -184,8 +185,8 @@ async def not_valid_birth_date(message: Message):
     lambda message: not message.contact, state=UserChatRegister.phone)
 async def check_contact(message: Message):
     await message.reply(
-        text=ct.c_share_phone_number_not_valid,
-        reply_markup=contact_request_button
+        text=_(ct.c_share_phone_number_not_valid),
+        reply_markup=get_contact_keyboard()
     )
 
 
@@ -193,6 +194,6 @@ async def check_contact(message: Message):
 @dp.message_handler(state=UserChatRegister.yes_or_no)
 async def not_approved(message: Message):
     await message.answer(
-        text=ct.c_take_approval,
+        text=_(ct.c_take_approval),
         reply_markup=make_buttons(words=[ct.c_yes, ct.c_cancel], row_width=2)
     )

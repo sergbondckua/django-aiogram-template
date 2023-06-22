@@ -8,19 +8,19 @@ from asgiref.sync import sync_to_async
 from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 
-from loader import dp
+from loader import dp, _
 import const_texts as ct
 
 from robot.models import TelegramUser
 from robot.states import UserRegister
-from robot.keyboards.default import make_buttons, contact_request_button
+from robot.keyboards.default import make_buttons, get_contact_keyboard
 
 
-@dp.message_handler(text=ct.c_register)
+@dp.message_handler(lambda message: message.text == _(ct.c_register))
 async def register(message: Message):
     await UserRegister.username.set()
     await message.answer(
-        text=ct.c_input_phone_number, reply_markup=contact_request_button
+        text=_(ct.c_input_phone_number), reply_markup=get_contact_keyboard()
     )
 
 
@@ -43,7 +43,7 @@ async def register(message: Message, state: FSMContext):
             userid=message.from_user.id)
         await sync_to_async(telegram_user.set_user)(user)
         await message.answer(
-            text=ct.c_successfully_register, reply_markup=make_buttons(
+            text=_(ct.c_successfully_register), reply_markup=make_buttons(
                 [ct.c_about_us])
         )
         logging.info("%s user was successfully connected", user.username)
@@ -52,7 +52,7 @@ async def register(message: Message, state: FSMContext):
 
     await UserRegister.next()
     await message.answer(
-        text=ct.c_input_first_name,
+        text=_(ct.c_input_first_name),
         reply_markup=make_buttons(
             words=[message.from_user.first_name, ct.c_cancel]),
     )
@@ -64,7 +64,7 @@ async def register(message: Message, state: FSMContext):
 async def register(message: Message, state: FSMContext):
     await UserRegister.next()
     await message.answer(
-        text=ct.c_input_last_name,
+        text=_(ct.c_input_last_name),
         reply_markup=make_buttons(
             words=[message.from_user.last_name, ct.c_cancel]),
     )
@@ -75,7 +75,7 @@ async def register(message: Message, state: FSMContext):
 async def register(message: Message, state: FSMContext):
     await UserRegister.next()
     await message.answer(
-        text=ct.c_input_password, reply_markup=make_buttons(
+        text=_(ct.c_input_password), reply_markup=make_buttons(
             words=[ct.c_cancel])
     )
     await state.update_data(last_name=message.text)
@@ -99,12 +99,12 @@ async def register(message: Message, state: FSMContext):
         await sync_to_async(telegram_user.set_user)(user)
 
         await message.answer(
-            text=ct.c_successfully_register, reply_markup=make_buttons(
+            text=_(ct.c_successfully_register), reply_markup=make_buttons(
                 [ct.c_about_us])
         )
     except IntegrityError:
         await message.answer(
-            text=ct.c_registration_failed, reply_markup=make_buttons(
+            text=_(ct.c_registration_failed), reply_markup=make_buttons(
                 [ct.c_register])
         )
 

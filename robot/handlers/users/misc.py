@@ -10,8 +10,6 @@ from robot.models import TelegramUser
 @dp.message_handler(commands=["ref"])
 async def get_ref(message: types.Message):
     link = await get_start_link("urlpay", encode=False)
-    # result: 'https://t.me/MyBot?start='
-    #  после знака = будет закодированный никнейм юзера, который создал реф ссылку, вместо него можно вставить и его id
     await message.answer(f"Ваша реф. ссылка {link}")
 
 
@@ -22,8 +20,10 @@ async def cmd_lang(message: types.Message):
         inline_keyboard=
         [
             [
-                InlineKeyboardButton(text="English", callback_data="lang_en"),
-                InlineKeyboardButton(text="Україньска", callback_data="lang_uk"),
+                InlineKeyboardButton(
+                    text=_("English"), callback_data="lang_en"),
+                InlineKeyboardButton(
+                    text=_("Україньска"), callback_data="lang_uk"),
             ]
         ]
     )
