@@ -29,6 +29,6 @@ class ACLMiddleware(I18nMiddleware):
 
 
 # Alias for gettext method
-i18n = ACLMiddleware("bot", settings.LOCALES_DIR)
+i18n = ACLMiddleware("django", settings.LOCALES_DIR)
 dp.middleware.setup(i18n)
 _ = i18n.gettext
