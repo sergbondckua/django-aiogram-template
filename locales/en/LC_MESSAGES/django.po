@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-22 17:52+0300\n"
+"POT-Creation-Date: 2023-06-23 01:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: const_texts.py:7
 msgid "Привіт,"
-msgstr "Hello"
+msgstr "Hello, "
 
 #: const_texts.py:9
 msgid "   • В мене відсутня деяка інформація про тебе."
@@ -43,18 +43,18 @@ msgid "   • Ти погоджуєшся надати інформацію?"
 msgstr "    • Do you agree to provide information?"
 
 #: const_texts.py:22
-msgid "Реєстрація 📝"
-msgstr "Registration 📝"
+msgid "✍️ Реєстрація"
+msgstr "✍️ Registration"
 
 #: const_texts.py:23
-msgid "✖ Скасувати"
-msgstr "✖ Cancel"
+msgid "❌ Скасувати"
+msgstr "❌ Cancel"
 
 #: const_texts.py:25
-msgid "Надання даних скасовано. Попередньо введена інформація видалена."
+msgid "🧹 Надання даних скасовано. Попередньо введена інформація видалена."
 msgstr ""
-"The provision of data has been cancelled. Previously entered information has "
-"been deleted."
+"🧹 The provision of data has been cancelled. Previously entered information "
+"has been deleted."
 
 #: const_texts.py:28
 msgid "📲 Надіслати номер телефону"
@@ -62,20 +62,21 @@ msgstr "📲 Send phone number"
 
 #: const_texts.py:30
 msgid ""
-"Цей номер телефону не належить Вашому обліковому запису Telegram. Спробуйте "
-"знову."
-msgstr "This phone number does not belong to your Telegram account. Try again."
+"📵 Цей номер телефону не належить Вашому обліковому запису Telegram. "
+"Спробуйте знову."
+msgstr ""
+"📵 This phone number does not belong to your Telegram account.Try again."
 
 #: const_texts.py:34
 msgid ""
-"Це не є контакт! Для надсилання свого номера телефона скористайся кнопкою, "
-"що нижче."
+"📇 Це не є контакт! Для надсилання свого номера телефона скористайся "
+"кнопкою, що нижче."
 msgstr ""
-"This is not a contact! To send your phone number, use the button below."
+"📇 This is not a contact! Use the button below to send your phone number."
 
 #: const_texts.py:41
-msgid "🙏 Дякую!"
-msgstr "🙏 Thank you!"
+msgid "Дякую!"
+msgstr "Thank you!"
 
 #: const_texts.py:46
 msgid ""
@@ -87,55 +88,53 @@ msgstr ""
 "matters of the club for your benefit and will NOT be transferred to third "
 "persons."
 
-#: const_texts.py:59
+#: const_texts.py:56
 msgid ""
 "Напиши та відправ мені свою дату народження в відповідному форматі - дд.мм."
-"рррр (31.12.2000)"
+"рррр (31.12.2000)\n"
+"\n"
+"• Для правильної організації тренувального процесу та участі в змаганнях - "
+"необхідно знати твій вік.\n"
+"• І ще, я хочу вітати тебе з Днем народження 🙂"
 msgstr ""
 "Write and send me your date of birth in the appropriate format - dd.mm.yyyy "
-"(31.12.2000)"
-
-#: const_texts.py:64
-msgid ""
-"• Для правильної організації тренувального процесу та участі в змаганнях - "
-"необхідно знати твій вік."
-msgstr ""
+"(31.12.2000)\n"
+"\n"
 "• For the correct organization of the training process and participation in "
-"competitions - it is necessary to know your age."
+"competitions - it is necessary to know your age.\n"
+"• And also, I want to congratulate you happy birthday 🙂"
 
-#: const_texts.py:68
-msgid "• І ще, я хочу вітати тебе з Днем народження 🙂"
-msgstr "• And also, I want to congratulate you on your birthday 🙂"
-
-#: const_texts.py:72
+#: const_texts.py:60
 msgid "Невірний формат дати. Спробуйте ще раз."
 msgstr "Invalid date format. Try again."
 
-#: const_texts.py:73
+#: const_texts.py:61
 msgid "Некоректна дата. Спробуйте ще раз"
 msgstr "Incorrect date. Try again"
 
-#: const_texts.py:75
-msgid "Для повноцінного контакту, надай свій номер телефону."
-msgstr "For full contact, provide your phone number."
+#: const_texts.py:62
+msgid ""
+"Для повноцінного контакту, надай свій номер телефону.\n"
+"\n"
+"• Його будуть бачити тільки адміністрація клубу 📲"
+msgstr ""
+"For complete contact, provide your phone number.\n"
+"\n"
+"• Only club administration will see it 📲"
 
-#: const_texts.py:76
-msgid "• Його будуть бачити тільки адміністрація клубу 📲"
-msgstr "For full contact, provide your phone number."
-
-#: const_texts.py:79
+#: const_texts.py:64
 msgid "Введіть ім'я:"
 msgstr "Enter name:"
 
-#: const_texts.py:80
+#: const_texts.py:65
 msgid "Введіть своє прізвище:"
 msgstr "Enter your last name:"
 
-#: const_texts.py:81
+#: const_texts.py:66
 msgid "Введіть пароль:"
 msgstr "Enter password:"
 
-#: const_texts.py:83
+#: const_texts.py:68
 msgid ""
 "Довжина пароля має бути від 8 символів і містити в собі: цифри, великі та "
 "малі літери"
@@ -143,33 +142,37 @@ msgstr ""
 "Password must be at least 8 characters long and contain numbers, uppercase "
 "and lowercase letters"
 
-#: const_texts.py:86
+#: const_texts.py:71
 msgid ""
 "Вітаю 🎉\n"
 "<b>Ви успішно зареєструвалися.</b>"
 msgstr ""
+"Congratulations 🎉\n"
+"<b>You have successfully registered.<b>"
 
-#: const_texts.py:88
+#: const_texts.py:73
 msgid "Під час реєстрації сталася помилка 🫤\n"
 msgstr ""
+"An error 🫤\n"
+" occurred during registration"
 
-#: const_texts.py:89
-msgid "✔ Так"
-msgstr "✔ I do"
+#: const_texts.py:74
+msgid "✅ Так"
+msgstr "✅ Yes"
 
-#: const_texts.py:90
+#: const_texts.py:75
 msgid "Натисніть кнопку згоди або скасування"
 msgstr "Click the agree or cancel button"
 
-#: const_texts.py:92
+#: const_texts.py:77
 msgid "Про нас 👁️"
-msgstr "About"
+msgstr "About us 👁"
 
 #: core/settings.py:118
 msgid "Ukrainian"
 msgstr ""
 
-#: core/settings.py:119
+#: core/settings.py:119 robot/handlers/users/misc.py:24
 msgid "English"
 msgstr ""
 
@@ -188,6 +191,10 @@ msgstr ""
 #: robot/admin.py:60
 msgid "Set info"
 msgstr ""
+
+#: robot/handlers/users/misc.py:26
+msgid "Україньска"
+msgstr "Ukrainian"
 
 #: robot/handlers/users/misc.py:32
 msgid "Your current language:"
@@ -288,8 +295,8 @@ msgstr ""
 
 #: robot/utils/misc/deeplink_process.py:20
 msgid "Інформації не знайдено"
-msgstr ""
+msgstr "No information found"
 
 #: robot/utils/notify_admins.py:16
 msgid "🖥 Запущено - Бот: "
-msgstr ""
+msgstr "🖥 Launched - Bot: "
