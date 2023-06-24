@@ -16,7 +16,7 @@ def c_get_hello(name: str) -> str:
 
 
 def c_get_hello_back(first_name: str, last_name: str) -> str:
-    return f"{first_name} {last_name} ми раді бачити вас знову!"
+    return f"{first_name} {last_name}, 😉"
 
 
 c_register = _("✍️ Реєстрація")

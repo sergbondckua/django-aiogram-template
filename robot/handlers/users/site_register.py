@@ -25,8 +25,7 @@ async def register(message: Message):
 
 
 @dp.message_handler(state=UserRegister.username, content_types="contact")
-async def register(message: Message, state: FSMContext):
-
+async def username_register(message: Message, state: FSMContext):
     #  Verification phone number belongs to this account
     if message.contact.user_id != message.from_user.id:
         await message.answer(text="This is not your phone number. Try again.")
@@ -61,7 +60,7 @@ async def register(message: Message, state: FSMContext):
 
 
 @dp.message_handler(state=UserRegister.first_name)
-async def register(message: Message, state: FSMContext):
+async def first_name_register(message: Message, state: FSMContext):
     await UserRegister.next()
     await message.answer(
         text=_(ct.c_input_last_name),
@@ -72,7 +71,7 @@ async def register(message: Message, state: FSMContext):
 
 
 @dp.message_handler(state=UserRegister.last_name)
-async def register(message: Message, state: FSMContext):
+async def last_name_register(message: Message, state: FSMContext):
     await UserRegister.next()
     await message.answer(
         text=_(ct.c_input_password), reply_markup=make_buttons(
@@ -84,7 +83,7 @@ async def register(message: Message, state: FSMContext):
 @dp.message_handler(
     state=UserRegister.password,
     regexp=r"^(?=.*[0-9].*)(?=.*[a-z].*)(?=.*[A-Z].*)[0-9a-zA-Z]{8,}$")
-async def register(message: Message, state: FSMContext):
+async def passwd_register(message: Message, state: FSMContext):
     user_info = await state.get_data()
 
     try:

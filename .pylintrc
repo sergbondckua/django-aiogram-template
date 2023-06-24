@@ -1,3 +1,5 @@
+[MASTER]
+init-hook='import sys; sys.path.append(".")'
 [MAIN]
 
 # Python code to execute, usually for sys.path manipulation such as
@@ -109,6 +111,7 @@ disable=
     # We anticipate #3512 where it will become optional
     fixme,
     consider-using-assignment-expr,
+    no-member,
 
 
 [REPORTS]

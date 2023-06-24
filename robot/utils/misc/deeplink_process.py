@@ -1,10 +1,9 @@
 from datetime import datetime
 
 from aiogram.types import Message
-from aiogram.utils.markdown import text, quote_html
+from aiogram.utils.markdown import quote_html
 
-from django.utils.translation import gettext_lazy as _
-
+from loader import _
 from robot.models import DeepLink
 
 
