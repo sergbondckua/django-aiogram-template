@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from common.admin import BaseAdmin
-from robot.models import TelegramUser, DeepLink
+from robot.models import TelegramUser, DeepLink, GisMeteoWeather
 
 
 @admin.register(TelegramUser)
@@ -61,6 +61,27 @@ class DeepLinkAdmin(BaseAdmin):
                         {
                             "fields": (
                                 "link",
+                                "message",
+                            )
+                        },
+                    ),
+                ) + BaseAdmin.fieldsets
+
+
+@admin.register(GisMeteoWeather)
+class GisMeteoWeatherAdmin(BaseAdmin):
+    list_display = ("title", "chat_id", "locality",)
+    list_display_links = ("title",)
+    fieldsets = (
+                    (
+                        _("Set info"),
+                        {
+                            "fields": (
+                                "title",
+                                "token",
+                                "chat_id",
+                                "locality",
+                                "language",
                                 "message",
                             )
                         },

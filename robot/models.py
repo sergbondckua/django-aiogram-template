@@ -1,10 +1,14 @@
+import requests
+from aiopygismeteo import Gismeteo
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from common.models import BaseModel
+from robot.enums import LanguageChoices
 
 
 class TelegramUser(BaseModel):
@@ -116,3 +120,87 @@ class DeepLink(BaseModel):
     class Meta:
         verbose_name = _("Deeplink")
         verbose_name_plural = _("Deep links")
+
+
+def validate_gismeteo_token(value):
+    """Validate token"""
+
+    # If the token is not set, skip validation
+    if not value:
+        return
+
+    # Making a request to the Gismeteo API
+    url = "https://api.gismeteo.net/v2/weather/current/4956"
+    headers = {
+        "X-Gismeteo-Token": value,
+    }
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 401:
+        raise ValidationError(
+            _("Invalid Gismeteo token"),
+            code="invalid",
+            params={"value": value},
+        )
+
+
+async def validate_gismeteo_locality(value):
+    """Validate the Gismeteo Locality"""
+    gm = await Gismeteo().search.by_query(value)
+    if not gm:
+        raise ValidationError(
+            _("Invalid Gismeteo locality"),
+            code="invalid",
+            params={"value": value},
+        )
+
+
+class GisMeteoWeather(BaseModel):
+    """ Weather model from Gismeteo """
+
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=150,
+        unique=True,
+    )
+
+    token = models.CharField(
+        verbose_name=_("Token"),
+        validators=[validate_gismeteo_token],
+        max_length=250,
+        blank=True,
+        null=True,
+        help_text=_("If you don't have your own token, leave it blank")
+    )
+
+    locality = models.CharField(
+        verbose_name=_("Locality"),
+        max_length=250,
+        validators=[validate_gismeteo_locality],
+        help_text=_("City, District, Aeroport")
+    )
+    chat_id = models.PositiveBigIntegerField(
+        verbose_name=_("Chat ID"),
+        unique=True,
+        blank=True,
+        null=True,
+    )
+    language = models.CharField(
+        verbose_name=_("Language"),
+        max_length=6,
+        default=LanguageChoices.UA,
+        choices=LanguageChoices.choices,
+    )
+    message = models.TextField(
+        verbose_name=_("Message"),
+        blank=False,
+        help_text=_("Additional text"),
+    )
+
+    def __str__(self) -> str:
+        return self.title
+
+    class Meta:
+        ordering = ("created_at",)
+        verbose_name = _("Weather notification")
+        verbose_name_plural = _("Weather notifications")

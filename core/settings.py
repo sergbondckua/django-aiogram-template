@@ -146,5 +146,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 BOT_TOKEN = env.str("BOT_TOKEN")
-
+GISMETEO_TOKEN = env.str("GISMETEO_TOKEN")
 ADMINS_LIST = env.list("ADMINS_LIST")
