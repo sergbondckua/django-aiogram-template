@@ -70,7 +70,7 @@ class DeepLinkAdmin(BaseAdmin):
 
 @admin.register(GisMeteoWeather)
 class GisMeteoWeatherAdmin(BaseAdmin):
-    list_display = ("title", "chat_id", "locality",)
+    list_display = ("title", "chat_id", "locality_code")
     list_display_links = ("title",)
     fieldsets = (
                     (
@@ -80,7 +80,7 @@ class GisMeteoWeatherAdmin(BaseAdmin):
                                 "title",
                                 "token",
                                 "chat_id",
-                                "locality",
+                                "locality_code",
                                 "language",
                                 "message",
                             )

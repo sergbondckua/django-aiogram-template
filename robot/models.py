@@ -1,5 +1,6 @@
 import requests
-from aiopygismeteo import Gismeteo
+from django.conf import settings
+
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -144,17 +145,6 @@ def validate_gismeteo_token(value):
         )
 
 
-async def validate_gismeteo_locality(value):
-    """Validate the Gismeteo Locality"""
-    gm = await Gismeteo().search.by_query(value)
-    if not gm:
-        raise ValidationError(
-            _("Invalid Gismeteo locality"),
-            code="invalid",
-            params={"value": value},
-        )
-
-
 class GisMeteoWeather(BaseModel):
     """ Weather model from Gismeteo """
 
@@ -163,7 +153,6 @@ class GisMeteoWeather(BaseModel):
         max_length=150,
         unique=True,
     )
-
     token = models.CharField(
         verbose_name=_("Token"),
         validators=[validate_gismeteo_token],
@@ -172,18 +161,20 @@ class GisMeteoWeather(BaseModel):
         null=True,
         help_text=_("If you don't have your own token, leave it blank")
     )
+    locality_code = models.CharField(
+        verbose_name=_("Locality Code"),
+        max_length=20,
+        default=4956,
+        help_text=_(
+            "4956 - Cherkasy, Cherkasy Region<br>"
+            "https://gismeteo.ua - find out the code of your locality"
+        )
 
-    locality = models.CharField(
-        verbose_name=_("Locality"),
-        max_length=250,
-        validators=[validate_gismeteo_locality],
-        help_text=_("City, District, Aeroport")
     )
     chat_id = models.PositiveBigIntegerField(
         verbose_name=_("Chat ID"),
         unique=True,
-        blank=True,
-        null=True,
+        default=settings.CHAT_ID_DEFAULT
     )
     language = models.CharField(
         verbose_name=_("Language"),
@@ -198,7 +189,7 @@ class GisMeteoWeather(BaseModel):
     )
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.title} {self.locality_code}"
 
     class Meta:
         ordering = ("created_at",)
