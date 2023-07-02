@@ -16,7 +16,7 @@ async def get_deeplink(link: str, tg_object: Message):
         query = await DeepLink.objects.aget(link=link)
     except DeepLink.DoesNotExist:
         await tg_object.answer(
-            text=_("Інформації не знайдено"),
+            text=_("No information found"),
         )
         return
     await tg_object.answer(

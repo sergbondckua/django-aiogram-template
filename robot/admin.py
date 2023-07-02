@@ -70,8 +70,9 @@ class DeepLinkAdmin(BaseAdmin):
 
 @admin.register(GisMeteoWeather)
 class GisMeteoWeatherAdmin(BaseAdmin):
-    list_display = ("title", "chat_id", "locality_code")
+    list_display = ("title", "chat_id", "locality_code", "active",)
     list_display_links = ("title",)
+    list_editable = ("active",)
     fieldsets = (
                     (
                         _("Set info"),
@@ -83,6 +84,15 @@ class GisMeteoWeatherAdmin(BaseAdmin):
                                 "locality_code",
                                 "language",
                                 "message",
+                            )
+                        },
+                    ),
+                    (
+                        _("Status"),
+                        {
+                            "fields": (
+                                ("precipitation_only",),
+                                ("active",),
                             )
                         },
                     ),

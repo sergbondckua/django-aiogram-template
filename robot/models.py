@@ -112,11 +112,11 @@ class DeepLink(BaseModel):
     )
     message = models.TextField(
         verbose_name=_("Message"),
-        help_text=_("Available variables: {userid}, {full_name}, {month_year}")
+        help_text=_("Available variables: {userid}, {full_name}, {month_year}"),
     )
 
     def __str__(self) -> str:
-        return self.link
+        return str(self.link)
 
     class Meta:
         verbose_name = _("Deeplink")
@@ -135,7 +135,7 @@ def validate_gismeteo_token(value):
     headers = {
         "X-Gismeteo-Token": value,
     }
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=2)
 
     if response.status_code == 401:
         raise ValidationError(
@@ -159,33 +159,43 @@ class GisMeteoWeather(BaseModel):
         max_length=250,
         blank=True,
         null=True,
-        help_text=_("If you don't have your own token, leave it blank")
+        help_text=_("If you don't have your own token, leave it blank"),
     )
-    locality_code = models.CharField(
+    locality_code = models.SmallIntegerField(
         verbose_name=_("Locality Code"),
-        max_length=20,
         default=4956,
         help_text=_(
             "4956 - Cherkasy, Cherkasy Region<br>"
             "https://gismeteo.ua - find out the code of your locality"
-        )
-
+        ),
     )
-    chat_id = models.PositiveBigIntegerField(
+    chat_id = models.BigIntegerField(
         verbose_name=_("Chat ID"),
         unique=True,
-        default=settings.CHAT_ID_DEFAULT
+        default=settings.CHAT_ID_DEFAULT,
+        help_text=_("Telegram chat ID for this weather message"),
     )
     language = models.CharField(
         verbose_name=_("Language"),
         max_length=6,
         default=LanguageChoices.UA,
         choices=LanguageChoices.choices,
+        help_text=_("The language of the weather report"),
     )
     message = models.TextField(
         verbose_name=_("Message"),
         blank=False,
-        help_text=_("Additional text"),
+        help_text=_("Additional text for this weather report"),
+    )
+    precipitation_only = models.BooleanField(
+        verbose_name=_("Precipitation only"),
+        default=True,
+        help_text=_("The message will be sent only in case of precipitation"),
+    )
+    active = models.BooleanField(
+        verbose_name=_("Active"),
+        default=True,
+        help_text=_("Indicates whether the item is currently active or not."),
     )
 
     def __str__(self) -> str:
