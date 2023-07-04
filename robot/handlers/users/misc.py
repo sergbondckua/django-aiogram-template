@@ -81,8 +81,8 @@ async def change_language(call: CallbackQuery):
     await call.message.answer(_("Your language has been changed", locale=lang))
 
 
-@dp.message_handler(commands="weather")
-async def cmd_weather(_: types.Message):
+# @dp.message_handler(commands="weather")
+async def cmd_weather():
     """Command to weather"""
     if weather := await sync_to_async(
             GisMeteoWeatherReport().get_weather_forecast)():
