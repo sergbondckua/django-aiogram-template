@@ -24,9 +24,9 @@ class GisMeteoWeatherReport:
             gm = pygismeteo.Gismeteo(token=data.token, lang=data.language)
 
             #  We get a forecast with a step of 3 hours for the current day
-            forecast_step3 = gm.step3.by_id(id=data.locality_code, days=1)
+            step3_forecast = gm.step3.by_id(id=data.locality_code, days=1)
             weather_data = self._processing_forecast_data(
-                forecast=forecast_step3,
+                forecast=step3_forecast,
                 precipitation_only=data.precipitation_only
             )
 
