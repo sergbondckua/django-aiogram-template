@@ -7,7 +7,7 @@ from aiogram import types
 from aiogram.utils.markdown import text, hbold, quote_html, hcode
 from asgiref.sync import sync_to_async
 
-from loader import dp, _
+from loader import dp, _, scheduler
 from robot.models import TelegramUser
 from robot.utils.weather import GisMeteoWeatherReport
 
@@ -81,7 +81,20 @@ async def change_language(call: CallbackQuery):
     await call.message.answer(_("Your language has been changed", locale=lang))
 
 
-# @dp.message_handler(commands="weather")
+@dp.message_handler(commands="stop")
+async def cmd_stop(message: types.Message):
+    """Stop APSchedule"""
+    scheduler.remove_job(job_id="bd")
+    await message.answer("all schedules stopping")
+
+
+@dp.message_handler(commands="sched")
+async def cmd_sched(message: types.Message):
+    """Stop APSchedule"""
+    scheduler.start()
+    await message.answer("all schedules starting")
+
+
 async def cmd_weather():
     """Command to weather"""
     if weather := await sync_to_async(
